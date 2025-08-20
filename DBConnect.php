@@ -1,8 +1,9 @@
 <?php
+/*Connecter à la base de données */
 class DBConnect {
     //propriété
     private PDO $pdo;
-    //constructeur
+    //constructeur appelé automatiquement lors de l'instanciation de la classe
     public function __construct() {
         try {
             $this->pdo = new PDO(
