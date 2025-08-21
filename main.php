@@ -1,13 +1,14 @@
 <?php
 require_once 'DBConnect.php';
-
+require_once 'ContactManager.php';
 $db = new DBConnect();
+$manager = new ContactManager($db);
+
 while (true) {
     $line = readline("Entrez votre commande (help, list, detail, create, delete, quit)  : ");
    // echo "Vous avez saisi : $line\n";
     if ($line === "list") {
-        $stmt = $db->getPDO()->query("SELECT * FROM contact");
-        $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+         $contacts = $manager->findAll();
         echo "Liste des contacts :\n";
         echo "id, name, email, phone number\n";
         foreach ($contacts as $contact) {
