@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * MODEL: responsable de l’accès aux données.
  * stocker en mémoire  un contact qui est récupéré de la base de données.
  * objet $contact est instancié en mémoire vive, c’est-à-dire dans la RAM du serveur pendant l’exécution du script PHP.
  * Il existe temporairement, tant que le script tourne.

@@ -1,5 +1,6 @@
 <?php
 /**
+ * CONTROLLER : responsable de la logique métier et de la coordination. 
  * Stocke toute la logique d’exécution de chaque commande (help, list, detail, create, delete, quit). 
  */
 class Command
@@ -81,5 +82,56 @@ class Command
         $this->manager->update($contact);
         echo "Contact mis à jour :\n";
         echo $contact . "\n";
+    }
+    
+    // Méthode pour traiter les commandes et simplifier main.php
+    public function processCommand(string $line): bool
+    {
+        if ($line === "quit") {
+            return false; // Indique qu'il faut quitter
+        }
+        
+        if ($line === "list") {
+            $this->list();
+            return true;
+        }
+        
+        if ($line === "help") {
+            $this->help();
+            return true;
+        }
+        
+        //preg_match détecte les commandes avec paramètres
+        if (preg_match('/^detail\s+(\d+)$/', $line, $matches)) {
+            $id = (int) $matches[1];
+            $this->detail($id);
+            return true;
+        }
+        
+        if (preg_match('/^create\s+([^,]+),([^,]+),([^,]+)$/', $line, $matches)) {
+            $name = trim($matches[1]);
+            $email = trim($matches[2]);
+            $phone = trim($matches[3]);
+            $this->create($name, $email, $phone);
+            return true;
+        }
+        
+        if (preg_match('/^delete\s+(\d+)$/', $line, $matches)) {
+            $id = (int) $matches[1];
+            $this->delete($id);
+            return true;
+        }
+        
+        if (preg_match('/^modify\s+(\d+),([^,]+),([^,]+),([^,]+)$/', $line, $matches)) {
+            $id = (int) $matches[1];
+            $name = trim($matches[2]);
+            $email = trim($matches[3]);
+            $phone = trim($matches[4]);
+            $this->modify($id, $name, $email, $phone);
+            return true;
+        }
+        
+        echo "Commande non reconnue. Tapez 'help' pour voir les commandes disponibles.\n";
+        return true;
     }
 }
